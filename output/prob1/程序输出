@@ -1,0 +1,207 @@
+图片共17张
+=== cameraman  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78840 (30.08%)，检测 0.39s，优化 400 次迭代 112.86s
+方法           PSNR/dB    SNR/dB
+noisy          10.30      4.68
+amf            31.19     25.57
+restored       37.50     31.88
+处理cameraman noise = 0.5
+=== cameraman  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=131013 (49.98%)，检测 0.40s，优化 400 次迭代 113.44s
+方法           PSNR/dB    SNR/dB
+noisy           8.10      2.48
+amf            27.30     21.68
+restored       32.26     26.64
+=== house  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78755 (30.04%)，检测 0.21s，优化 400 次迭代 121.44s
+方法           PSNR/dB    SNR/dB
+noisy          10.40      5.69
+amf            37.62     32.91
+restored       38.68     33.97
+=== house  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130956 (49.96%)，检测 0.39s，优化 400 次迭代 131.26s
+方法           PSNR/dB    SNR/dB
+noisy           8.21      3.50
+amf            32.69     27.98
+restored       37.10     32.39
+=== jetplane  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78747 (30.04%)，检测 0.24s，优化 400 次迭代 125.59s
+方法           PSNR/dB    SNR/dB
+noisy          10.11      7.27
+amf            30.79     27.95
+restored       36.65     33.81
+=== jetplane  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130950 (49.95%)，检测 0.45s，优化 400 次迭代 148.07s
+方法           PSNR/dB    SNR/dB
+noisy           7.92      5.08
+amf            27.04     24.20
+restored       32.54     29.71
+=== lake  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78747 (30.04%)，检测 0.24s，优化 400 次迭代 132.38s
+方法           PSNR/dB    SNR/dB
+noisy          10.22      5.05
+amf            28.90     23.73
+restored       33.77     28.60
+=== lake  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130950 (49.95%)，检测 0.42s，优化 400 次迭代 141.15s
+方法           PSNR/dB    SNR/dB
+noisy           8.01      2.84
+amf            25.43     20.26
+restored       30.31     25.14
+=== lena_color_256  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=19610 (29.92%)，检测 0.06s，优化 400 次迭代 11.11s
+方法           PSNR/dB    SNR/dB
+noisy          10.71      5.02
+amf            30.85     25.16
+restored       33.93     28.24
+处理lena_color_256 noise = 0.5
+=== lena_color_256  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=32691 (49.88%)，检测 0.11s，优化 400 次迭代 12.33s
+方法           PSNR/dB    SNR/dB
+noisy           8.50      2.81
+amf            26.81     21.12
+restored       30.38     24.69
+=== lena_color_512  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78747 (30.04%)，检测 0.24s，优化 400 次迭代 132.11s
+方法           PSNR/dB    SNR/dB
+noisy          10.67      5.01
+amf            32.75     27.09
+restored       36.58     30.93
+=== lena_color_512  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130950 (49.95%)，检测 0.44s，优化 400 次迭代 153.89s
+方法           PSNR/dB    SNR/dB
+noisy           8.46      2.80
+amf            29.18     23.53
+restored       32.91     27.26
+=== lena_gray_256  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=19610 (29.92%)，检测 0.07s，优化 400 次迭代 12.52s
+方法           PSNR/dB    SNR/dB
+noisy          10.70      5.04
+amf            29.67     24.01
+restored       32.35     26.69
+=== lena_gray_256  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=32691 (49.88%)，检测 0.10s，优化 400 次迭代 11.53s
+方法           PSNR/dB    SNR/dB
+noisy           8.49      2.83
+amf            26.12     20.46
+restored       29.07     23.41
+=== lena_gray_512  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78747 (30.04%)，检测 0.23s，优化 400 次迭代 116.31s
+方法           PSNR/dB    SNR/dB
+noisy          10.67      5.01
+amf            32.75     27.09
+restored       36.58     30.93
+=== lena_gray_512  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130950 (49.95%)，检测 0.43s，优化 400 次迭代 128.04s
+方法           PSNR/dB    SNR/dB
+noisy           8.46      2.80
+amf            29.18     23.53
+restored       32.92     27.26
+=== livingroom  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78915 (30.10%)，检测 0.24s，优化 400 次迭代 121.23s
+方法           PSNR/dB    SNR/dB
+noisy          10.73      4.79
+amf            28.83     22.90
+restored       34.39     28.45
+=== livingroom  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=131067 (50.00%)，检测 0.42s，优化 400 次迭代 115.15s
+方法           PSNR/dB    SNR/dB
+noisy           8.52      2.59
+amf            25.91     19.97
+restored       30.41     24.48
+=== mandril_color  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78747 (30.04%)，检测 0.26s，优化 400 次迭代 119.26s
+方法           PSNR/dB    SNR/dB
+noisy          10.77      4.87
+amf            24.24     18.35
+restored       27.30     21.41
+=== mandril_color  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130950 (49.95%)，检测 0.42s，优化 400 次迭代 126.15s
+方法           PSNR/dB    SNR/dB
+noisy           8.56      2.66
+amf            22.40     16.50
+restored       24.44     18.55
+=== mandril_gray  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78747 (30.04%)，检测 0.25s，优化 400 次迭代 114.30s
+方法           PSNR/dB    SNR/dB
+noisy          10.84      5.28
+amf            27.07     21.52
+restored       32.68     27.12
+=== mandril_gray  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130950 (49.95%)，检测 0.43s，优化 400 次迭代 123.01s
+方法           PSNR/dB    SNR/dB
+noisy           8.63      3.07
+amf            24.32     18.77
+restored       28.70     23.14
+=== peppers_color  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78921 (30.11%)，检测 0.22s，优化 400 次迭代 122.10s
+方法           PSNR/dB    SNR/dB
+noisy          10.01      5.12
+amf            25.08     20.19
+restored       27.24     22.36
+=== peppers_color  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=131072 (50.00%)，检测 0.39s，优化 400 次迭代 124.32s
+方法           PSNR/dB    SNR/dB
+noisy           7.81      2.93
+amf            23.03     18.15
+restored       24.84     19.95
+=== peppers_gray  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78771 (30.05%)，检测 0.22s，优化 400 次迭代 146.18s
+方法           PSNR/dB    SNR/dB
+noisy          10.50      4.56
+amf            32.58     26.64
+restored       35.84     29.90
+=== peppers_gray  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130968 (49.96%)，检测 0.39s，优化 400 次迭代 143.18s
+方法           PSNR/dB    SNR/dB
+noisy           8.30      2.35
+amf            29.40     23.46
+restored       32.16     26.22
+=== pirate  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78747 (30.04%)，检测 0.24s，优化 400 次迭代 142.00s
+方法           PSNR/dB    SNR/dB
+noisy          10.63      4.18
+amf            30.61     24.16
+restored       34.65     28.20
+=== pirate  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130950 (49.95%)，检测 0.44s，优化 400 次迭代 144.56s
+方法           PSNR/dB    SNR/dB
+noisy           8.41      1.96
+amf            27.44     20.99
+restored       31.11     24.67
+=== walkbridge  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78956 (30.12%)，检测 0.24s，优化 400 次迭代 145.06s
+方法           PSNR/dB    SNR/dB
+noisy          10.48      4.38
+amf            26.81     20.71
+restored       30.82     24.72
+=== walkbridge  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=131110 (50.01%)，检测 0.42s，优化 400 次迭代 142.73s
+方法           PSNR/dB    SNR/dB
+noisy           8.27      2.17
+amf            24.21     18.11
+restored       27.65     21.55
+=== woman_blonde  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=79808 (30.44%)，检测 0.24s，优化 400 次迭代 117.30s
+方法           PSNR/dB    SNR/dB
+noisy          10.78      5.67
+amf            28.58     23.47
+restored       30.95     25.84
+=== woman_blonde  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=131787 (50.27%)，检测 0.44s，优化 400 次迭代 127.60s
+方法           PSNR/dB    SNR/dB
+noisy           8.58      3.46
+amf            26.61     21.50
+restored       28.48     23.37
+=== woman_darkhair  noise=30%  seed=0 ===
+AMF 检出噪声像素 |Ω|=78784 (30.05%)，检测 0.24s，优化 400 次迭代 124.66s
+方法           PSNR/dB    SNR/dB
+noisy          10.26      4.02
+amf            38.87     32.62
+restored       42.18     35.94
+=== woman_darkhair  noise=50%  seed=0 ===
+AMF 检出噪声像素 |Ω|=130980 (49.96%)，检测 0.48s，优化 400 次迭代 140.84s
+方法           PSNR/dB    SNR/dB
+noisy           8.05      1.80
+amf            34.93     28.68
+restored       37.81     31.56
