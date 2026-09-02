@@ -10,8 +10,6 @@ BETA = 20.0                        # 正则化强度
 MU0, MU_MIN, RHO = 1.0, 1e-3, 0.1 # 光滑参数延拓：mu_{j+1} = rho * mu_j
 MAXIT, TOL = 80, 1e-4              # 每层最大迭代 / 投影梯度残差阈值
 ETAMIN, ETAMAX = 1e-10, 1e10       # BB 步长截断
-# ponytail: 当前每图跑 5 层延拓 × 200 步 ≈ 400s；改 Lipschitz 单调回溯 + 缩短延拓层数
-#           可压到 30s 内；AMF Python 循环另外 5s 改 scipy.ndimage.rank_filters
 OUT_DIR = Path('../output/prob1')
 PLOT_DIR = OUT_DIR / 'plots'
 LIT_DIR = OUT_DIR / 'ret'
@@ -72,8 +70,6 @@ def run(img_name, ratio, seed=0):
     print(f'{"方法":<10}{"PSNR/dB":>10}{"SNR/dB":>10}')
     for name, _, p, s in rows:
         print(f'{name:<10}{p:>10.2f}{s:>10.2f}')
-    for name, img, _, _ in rows:
-        Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).save(PLOT_DIR / f'{img_name}_r{int(ratio*100)}_{name}.png')
     return rows
 if __name__ == '__main__':
     import sys
