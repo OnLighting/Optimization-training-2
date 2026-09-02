@@ -1,7 +1,8 @@
 import time
 from pathlib import Path
+
 import numpy as np
-from PIL import Image
+
 from utils import add_salt_pepper_noise, amf_detect, load_gray, make_potential, make_problem, project, psnr, snr
 
 IMG_DIR = Path('../参考文献及测试图片/standard_test_images')
