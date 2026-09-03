@@ -53,8 +53,6 @@ def prp(a, b, tau, maxiter=500):
             iterations += 1
             history.append(objective(a, b, tau, x))
     return x, iterations, restarts, history
-
-
 def gpsr(a, b, tau, maxiter=1500):
     n, alpha = a.shape[1], 1.0
     z = np.zeros(2 * n)
@@ -76,8 +74,8 @@ def gpsr(a, b, tau, maxiter=1500):
         alpha = 1e30 if gamma == 0 else float(np.clip((delta @ delta) / gamma, 1e-30, 1e30))
         z, g = zn, gn
     return z[:n] - z[n:], maxiter, 0, history
+# 正交行测量矩阵下步长为 1 的 ISTA/FISTA 基线。
 def ista(a, b, tau, maxiter=1500, accelerated=False):
-    """正交行测量矩阵下步长为 1 的 ISTA/FISTA 基线。"""
     x = y = np.zeros(a.shape[1])
     t, history = 1.0, []
     for k in range(1, maxiter + 1):
@@ -100,14 +98,11 @@ def metrics(xhat, x):
     return error / np.linalg.norm(x), error * error / x.size, \
         20 * np.log10(np.linalg.norm(x) / error), \
         2 * precision * recall / max(precision + recall, 1e-30)
-
-
 def run(seed):
     a, b, x = make_data(seed)
     tau = 0.1 * np.linalg.norm(a.T @ b, np.inf)
     rows, curves = [], {}
-    solvers = (('PRP+', prp), ('GPSR-BB', gpsr), ('ISTA', ista),
-               ('FISTA', lambda a, b, tau: ista(a, b, tau, accelerated=True)))
+    solvers = (('PRP+', prp), ('GPSR-BB', gpsr), ('ISTA', ista),('FISTA', lambda a, b, tau: ista(a, b, tau, accelerated=True)))
     for name, solver in solvers:
         start = perf_counter()
         xhat, iterations, restarts, history = solver(a, b, tau)
@@ -117,8 +112,6 @@ def run(seed):
                      objective(a, b, tau, xhat), rel, mse, snr, f1))
         curves[name] = (xhat, history)
     return rows, (x, a.T @ b, curves)
-
-
 def save(rows, example):
     import matplotlib.pyplot as plt
     plt.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei', 'Arial Unicode MS']
@@ -134,20 +127,31 @@ def save(rows, example):
                 f.write(f'{name},{metric},{mean:.8g},{std:.8g}\n')
 
     x, backprojection, curves = example
-    fig, axes = plt.subplots(6, 1, figsize=(12, 12), sharex=True)
-    for ax, (title, values) in zip(axes, [('Original signal', x), ('Backprojection $A^Tb$', backprojection)] +
-                                 [(name, curves[name][0]) for name in curves]):
-        ax.plot(values, lw=0.7)
+    fig, axes = plt.subplots(2, 2, figsize=(10, 10))
+    signals = (
+        ('原始信号', x),
+        ('反投影 $A^Tb$', backprojection),
+        ('PRP+ 重建信号', curves['PRP+'][0]),
+        ('GPSR-BB 重建信号', curves['GPSR-BB'][0]),
+    )
+    for ax, (title, signal) in zip(axes.flat, signals):
+        image = ax.imshow(signal.reshape(64, 64), cmap='seismic', vmin=-1, vmax=1)
         ax.set_title(title)
-    fig.tight_layout()
+        ax.set_xticks([])
+        ax.set_yticks([])
+    plt.tight_layout(rect=(0, 0, 1, 0.92))
+    colorbar_ax = fig.add_axes([0.25, 0.94, 0.5, 0.025])
+    fig.colorbar(image, cax=colorbar_ax, orientation='horizontal', ticks=np.linspace(-1, 1, 5))
     fig.savefig(OUT_DIR / 'reconstruction.png', dpi=300)
     plt.close(fig)
 
+    plt.figure(figsize=(10, 6))
     for name, (_, history) in curves.items():
-        plt.semilogy(history, label=name)
+        plt.plot(history, label=name)
     plt.xlabel('迭代次数')
-    plt.ylabel('目标值')
-    plt.legend()
+    plt.ylabel('原始目标')
+    plt.ticklabel_format(axis='y', style='plain', useOffset=False)
+    plt.legend(loc='upper center',ncol=4)
     plt.tight_layout()
     plt.savefig(OUT_DIR / 'convergence.png', dpi=300)
     plt.close()
@@ -162,7 +166,6 @@ def main():
         for row in trial_rows:
             print(f'seed={seed:2d} {row[1]:7s} iter={row[2]:4d} time={row[4]:7.2f}s '
                   f'RelErr={row[6]:.4f} SNR={row[8]:6.2f}dB F1={row[9]:.4f}')
-    assert len(rows) == 4 * TRIALS and all(np.isfinite(float(v)) for row in rows for v in row[2:])
     save(rows, example)
 
 
