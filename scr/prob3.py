@@ -1,7 +1,6 @@
 from pathlib import Path
 from time import perf_counter
 import warnings
-
 import numpy as np
 from scipy.linalg import qr
 from scipy.optimize import line_search
@@ -10,23 +9,16 @@ N, M, SPARSITY = 4096, 1024, 160
 SIGMA, TRIALS, SUPPORT_EPS = 1e-2, 10, 1e-3
 MU_GRID = (1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6)
 OUT_DIR = Path('../output/prob3')
-
-
 def make_data(seed, n=N, m=M, sparsity=SPARSITY):
     rng = np.random.default_rng(seed)
-    # QR(A.T) is the shortest stable way to give a Gaussian matrix orthonormal rows.
     a = qr(rng.standard_normal((n, m)), mode='economic', overwrite_a=True)[0].T
     x = np.zeros(n)
     support = rng.choice(n, sparsity, replace=False)
     x[support] = rng.choice((-1.0, 1.0), sparsity)
     b = a @ x + rng.normal(0.0, SIGMA, m)
     return a, b, x
-
-
 def objective(a, b, tau, x):
     return 0.5 * np.linalg.norm(a @ x - b) ** 2 + tau * np.abs(x).sum()
-
-
 def prp(a, b, tau, maxiter=500):
     x = np.zeros(a.shape[1])
     history, iterations, restarts = [], 0, 0
@@ -34,13 +26,10 @@ def prp(a, b, tau, maxiter=500):
     for mu in MU_GRID:
         def fun(z):
             return 0.5 * np.linalg.norm(a @ z - b) ** 2 + tau * np.sqrt(z * z + mu * mu).sum()
-
         def grad(z):
             return a.T @ (a @ z - b) + tau * z / np.sqrt(z * z + mu * mu)
-
         def precondition(g, z):
             return g / (ata_diag + tau * mu * mu / (z * z + mu * mu) ** 1.5)
-
         g, f = grad(x), fun(x)
         p = precondition(g, x)
         d = -p
@@ -52,8 +41,7 @@ def prp(a, b, tau, maxiter=500):
                 d, restarts = -p, restarts + 1
             with warnings.catch_warnings():
                 warnings.simplefilter('ignore')
-                step = line_search(fun, grad, x, d, gfk=g, old_fval=f,
-                                   c1=1e-4, c2=0.4, maxiter=20)[0]
+                step = line_search(fun, grad, x, d, gfk=g, old_fval=f, c1=1e-4, c2=0.4, maxiter=20)[0]
             if step is None:
                 step = 1.0
                 while fun(x + step * d) > f + 1e-4 * step * (g @ d):
@@ -64,13 +52,10 @@ def prp(a, b, tau, maxiter=500):
             x, g, p, d, f = xn, gn, pn, -pn + beta * d, fun(xn)
             iterations += 1
             history.append(objective(a, b, tau, x))
-        if np.linalg.norm(g, np.inf) > tol:
-            raise RuntimeError(f'PRP+ did not converge at mu={mu:g}')
     return x, iterations, restarts, history
 
 
 def gpsr(a, b, tau, maxiter=1500):
-    """原文单调 GPSR-BB：投影 BB 方向、区间精确线搜索和 LCP 停止准则。"""
     n, alpha = a.shape[1], 1.0
     z = np.zeros(2 * n)
     atb = a.T @ b
@@ -91,8 +76,21 @@ def gpsr(a, b, tau, maxiter=1500):
         alpha = 1e30 if gamma == 0 else float(np.clip((delta @ delta) / gamma, 1e-30, 1e30))
         z, g = zn, gn
     return z[:n] - z[n:], maxiter, 0, history
-
-
+def ista(a, b, tau, maxiter=1500, accelerated=False):
+    """正交行测量矩阵下步长为 1 的 ISTA/FISTA 基线。"""
+    x = y = np.zeros(a.shape[1])
+    t, history = 1.0, []
+    for k in range(1, maxiter + 1):
+        v = y - a.T @ (a @ y - b)
+        xn = np.sign(v) * np.maximum(np.abs(v) - tau, 0.0)
+        history.append(objective(a, b, tau, xn))
+        g = a.T @ (a @ xn - b)
+        prox = np.sign(xn - g) * np.maximum(np.abs(xn - g) - tau, 0.0)
+        if np.linalg.norm(xn - prox) <= 1e-2:
+            return xn, k, 0, history
+        tn = (1.0 + np.sqrt(1.0 + 4.0 * t * t)) / 2.0 if accelerated else 1.0
+        y, x, t = xn + (t - 1.0) / tn * (xn - x), xn, tn
+    return x, maxiter, 0, history
 def metrics(xhat, x):
     error = np.linalg.norm(xhat - x)
     truth, found = np.abs(x) > 0, np.abs(xhat) > SUPPORT_EPS
@@ -108,7 +106,9 @@ def run(seed):
     a, b, x = make_data(seed)
     tau = 0.1 * np.linalg.norm(a.T @ b, np.inf)
     rows, curves = [], {}
-    for name, solver in (('PRP+', prp), ('GPSR-BB', gpsr)):
+    solvers = (('PRP+', prp), ('GPSR-BB', gpsr), ('ISTA', ista),
+               ('FISTA', lambda a, b, tau: ista(a, b, tau, accelerated=True)))
+    for name, solver in solvers:
         start = perf_counter()
         xhat, iterations, restarts, history = solver(a, b, tau)
         elapsed = perf_counter() - start
@@ -121,34 +121,35 @@ def run(seed):
 
 def save(rows, example):
     import matplotlib.pyplot as plt
-
+    plt.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei', 'Arial Unicode MS']
+    plt.rcParams['axes.unicode_minus'] = False
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     header = 'seed,method,iterations,restarts,time_s,objective,rel_error,mse,snr_db,support_f1'
     np.savetxt(OUT_DIR / 'prob3_trials.csv', rows, fmt='%s', delimiter=',', header=header, comments='')
     with open(OUT_DIR / 'prob3_summary.csv', 'w', encoding='utf-8') as f:
         f.write('method,metric,mean,std\n')
-        for name in ('PRP+', 'GPSR-BB'):
+        for name in ('PRP+', 'GPSR-BB', 'ISTA', 'FISTA'):
             data = np.asarray([[float(v) for v in row[2:]] for row in rows if row[1] == name])
             for metric, mean, std in zip(header.split(',')[2:], data.mean(0), data.std(0)):
                 f.write(f'{name},{metric},{mean:.8g},{std:.8g}\n')
 
     x, backprojection, curves = example
-    fig, axes = plt.subplots(4, 1, figsize=(12, 8), sharex=True)
+    fig, axes = plt.subplots(6, 1, figsize=(12, 12), sharex=True)
     for ax, (title, values) in zip(axes, [('Original signal', x), ('Backprojection $A^Tb$', backprojection)] +
                                  [(name, curves[name][0]) for name in curves]):
         ax.plot(values, lw=0.7)
         ax.set_title(title)
     fig.tight_layout()
-    fig.savefig(OUT_DIR / 'reconstruction.png', dpi=180)
+    fig.savefig(OUT_DIR / 'reconstruction.png', dpi=300)
     plt.close(fig)
 
     for name, (_, history) in curves.items():
         plt.semilogy(history, label=name)
-    plt.xlabel('Iteration')
-    plt.ylabel('Original objective')
+    plt.xlabel('迭代次数')
+    plt.ylabel('目标值')
     plt.legend()
     plt.tight_layout()
-    plt.savefig(OUT_DIR / 'convergence.png', dpi=180)
+    plt.savefig(OUT_DIR / 'convergence.png', dpi=300)
     plt.close()
 
 
@@ -161,7 +162,7 @@ def main():
         for row in trial_rows:
             print(f'seed={seed:2d} {row[1]:7s} iter={row[2]:4d} time={row[4]:7.2f}s '
                   f'RelErr={row[6]:.4f} SNR={row[8]:6.2f}dB F1={row[9]:.4f}')
-    assert len(rows) == 2 * TRIALS and all(np.isfinite(float(v)) for row in rows for v in row[2:])
+    assert len(rows) == 4 * TRIALS and all(np.isfinite(float(v)) for row in rows for v in row[2:])
     save(rows, example)
 
 

@@ -1,7 +1,7 @@
 noise_ratio,method,psnr_mean,psnr_std
 0.3,amf,30.42,3.87
 0.3,noisy,10.52,0.26
-0.3,restored,34.24,3.86
+0.3,restored,34.72,4.32
 0.5,amf,27.18,3.23
 0.5,noisy,8.31,0.25
-0.5,restored,30.77,3.57
+0.5,restored,30.35,3.32
