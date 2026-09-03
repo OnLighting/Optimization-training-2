@@ -1,0 +1,228 @@
+===== alpha 参数标定 =====
+=== lena_gray_512  差分总数 523264，边缘区 |t|>=10: 79077 个 (15.1%)，区间 [10, 125]，中位数 16 ===
+势函数         alpha    rel均值   rel最大     斜偏均值     斜偏最大      数值校验  结论
+sqrt        1e-06*    0.000    0.000     0.000     0.000     1.8e-13  ≈|t|
+sqrt       0.0001     0.000    0.000     0.000     0.000     5.3e-13  ≈|t|
+sqrt         0.01     0.000    0.000     0.000     0.000     5.0e-11  ≈|t|
+sqrt          1.0     0.002    0.005     0.002     0.005     4.9e-09  ≈|t|
+
+power         1.1*    0.333    0.621     0.466     0.783     2.7e-08  接近
+power         1.2     0.781    1.627     1.138     2.152     8.4e-08  偏离
+power         1.3     1.387    3.257     2.103     4.534     1.9e-07  偏离
+power         1.5     3.321   10.180     5.481    15.771     7.0e-07  偏离
+power         1.8     9.761   46.591    18.370    84.664     2.3e-06  偏离
+
+logcosh       1.0     0.044    0.069     0.000     0.000     2.8e-13  ≈|t|
+logcosh       1.5     0.029    0.046     0.000     0.000     2.0e-13  ≈|t|
+logcosh       2.0     0.022    0.035     0.000     0.000     1.0e-13  ≈|t|
+logcosh       2.5*    0.018    0.028     0.000     0.000     1.6e-13  ≈|t|
+
+log           0.8     0.066    0.210     0.190     0.242     2.6e-08  接近
+log           0.9*    0.074    0.138     0.052     0.103     2.6e-08  ≈|t|
+log           1.0     0.174    0.240     0.059     0.091     2.5e-08  接近
+log           1.3     0.389    0.447     0.289     0.319     2.3e-08  接近
+
+huber         1.0*    0.032    0.050     0.000     0.000     1.0e-13  ≈|t|
+huber         1.3     0.041    0.065     0.000     0.000     1.0e-13  ≈|t|
+huber         1.5     0.047    0.075     0.000     0.000     1.0e-13  ≈|t|
+huber           2     0.063    0.100     0.000     0.000     1.0e-13  ≈|t|
+
+最终alpha{'sqrt': 1e-06, 'power': 1.1, 'logcosh': 2.5, 'log': 0.9, 'huber': 1.0}
+
+===== beta 参数标定 =====
+pot=sqrt     ratio=30%  alpha=1e-06  beta=50.0  val_psnr=40.43
+pot=sqrt     ratio=50%  alpha=1e-06  beta=50.0  val_psnr=33.99
+
+pot=power    ratio=30%  alpha=1.1  beta=30.0  val_psnr=41.04
+pot=power    ratio=50%  alpha=1.1  beta=50.0  val_psnr=34.20
+
+pot=logcosh  ratio=30%  alpha=2.5  beta=50.0  val_psnr=40.76
+pot=logcosh  ratio=50%  alpha=2.5  beta=50.0  val_psnr=35.00
+
+pot=log      ratio=30%  alpha=0.9  beta=50.0  val_psnr=41.66
+pot=log      ratio=50%  alpha=0.9  beta=10.0  val_psnr=36.32
+
+pot=huber    ratio=30%  alpha=1.0  beta=50.0  val_psnr=40.84
+pot=huber    ratio=50%  alpha=1.0  beta=50.0  val_psnr=35.97
+
+图像                    噪声       势函数     alpha  beta    迭代    时间/s   PSNR/dB    SNR/dB
+lake                 30%      sqrt     1e-06    50   320   17.83     34.13     28.96
+lake                 30%     power       1.1    30   320   25.47     34.43     29.26
+lake                 30%   logcosh       2.5    50   320   30.70     34.09     28.91
+lake                 30%       log       0.9    50   320   27.10     34.43     29.26
+lake                 30%     huber       1.0    50   320   25.43     33.92     28.75
+
+lake                 50%      sqrt     1e-06    50   320   20.80     30.11     24.94
+lake                 50%     power       1.1    50   320   27.22     30.52     25.35
+lake                 50%   logcosh       2.5    50   320   34.18     30.61     25.44
+lake                 50%       log       0.9    10   320   26.35     30.66     25.49
+lake                 50%     huber       1.0    50   320   24.57     30.52     25.35
+
+lena_color_256       30%      sqrt     1e-06    50   320    1.93     34.55     28.86
+lena_color_256       30%     power       1.1    30   320    3.99     34.86     29.17
+lena_color_256       30%   logcosh       2.5    50   320    4.43     34.48     28.79
+lena_color_256       30%       log       0.9    50   320    3.51     34.94     29.25
+lena_color_256       30%     huber       1.0    50   320    3.30     34.38     28.69
+
+lena_color_256       50%      sqrt     1e-06    50   320    1.82     29.44     23.75
+lena_color_256       50%     power       1.1    50   320    3.81     30.35     24.66
+lena_color_256       50%   logcosh       2.5    50   320    4.58     30.79     25.10
+lena_color_256       50%       log       0.9    10   320    3.57     31.16     25.46
+lena_color_256       50%     huber       1.0    50   320    2.61     30.79     25.10
+
+lena_color_512       30%      sqrt     1e-06    50   320   16.32     37.45     31.79
+lena_color_512       30%     power       1.1    30   320   23.33     37.73     32.07
+lena_color_512       30%   logcosh       2.5    50   320   31.34     37.47     31.81
+lena_color_512       30%       log       0.9    50   320   28.68     38.04     32.38
+lena_color_512       30%     huber       1.0    50   320   30.41     37.32     31.66
+
+lena_color_512       50%      sqrt     1e-06    50   320   18.57     30.89     25.23
+lena_color_512       50%     power       1.1    50   320   25.12     32.64     26.98
+lena_color_512       50%   logcosh       2.5    50   320   30.75     33.57     27.91
+lena_color_512       50%       log       0.9    10   320   26.56     34.03     28.37
+lena_color_512       50%     huber       1.0    50   320   25.14     33.53     27.88
+
+lena_gray_256        30%      sqrt     1e-06    50   320    1.74     32.64     26.98
+lena_gray_256        30%     power       1.1    30   320    3.77     32.90     27.24
+lena_gray_256        30%   logcosh       2.5    50   320    4.83     32.66     27.00
+lena_gray_256        30%       log       0.9    50   320    4.32     32.98     27.32
+lena_gray_256        30%     huber       1.0    50   320    2.64     32.62     26.96
+
+lena_gray_256        50%      sqrt     1e-06    50   320    2.02     28.36     22.70
+lena_gray_256        50%     power       1.1    50   320    4.03     29.02     23.36
+lena_gray_256        50%   logcosh       2.5    50   320    4.39     29.41     23.75
+lena_gray_256        50%       log       0.9    10   320    3.82     29.64     23.98
+lena_gray_256        50%     huber       1.0    50   320    2.71     29.42     23.76
+
+lena_gray_512        30%      sqrt     1e-06    50   320   16.86     37.45     31.79
+lena_gray_512        30%     power       1.1    30   320   24.90     37.73     32.07
+lena_gray_512        30%   logcosh       2.5    50   320   32.81     37.46     31.81
+lena_gray_512        30%       log       0.9    50   320   25.42     38.05     32.39
+lena_gray_512        30%     huber       1.0    50   320   23.36     37.29     31.63
+
+lena_gray_512        50%      sqrt     1e-06    50   320   19.98     30.89     25.23
+lena_gray_512        50%     power       1.1    50   320   25.61     32.64     26.98
+lena_gray_512        50%   logcosh       2.5    50   320   30.79     33.57     27.91
+lena_gray_512        50%       log       0.9    10   320   28.24     34.03     28.37
+lena_gray_512        50%     huber       1.0    50   320   24.60     33.53     27.87
+
+livingroom           30%      sqrt     1e-06    50   320   17.53     34.61     28.67
+livingroom           30%     power       1.1    30   320   24.20     34.71     28.77
+livingroom           30%   logcosh       2.5    50   320   28.13     34.79     28.86
+livingroom           30%       log       0.9    50   320   23.73     35.03     29.10
+livingroom           30%     huber       1.0    50   320   21.94     34.71     28.77
+
+livingroom           50%      sqrt     1e-06    50   320   18.51     28.40     22.46
+livingroom           50%     power       1.1    50   320   25.22     29.60     23.67
+livingroom           50%   logcosh       2.5    50   320   30.10     30.93     24.99
+livingroom           50%       log       0.9    10   320   27.01     31.25     25.32
+livingroom           50%     huber       1.0    50   320   23.47     30.99     25.06
+
+mandril_color        30%      sqrt     1e-06    50   320   15.06     27.43     21.53
+mandril_color        30%     power       1.1    30   320   21.99     27.58     21.69
+mandril_color        30%   logcosh       2.5    50   320   25.61     27.37     21.48
+mandril_color        30%       log       0.9    50   320   22.09     27.51     21.62
+mandril_color        30%     huber       1.0    50   320   20.84     27.30     21.40
+
+mandril_color        50%      sqrt     1e-06    50   320   16.15     24.33     18.44
+mandril_color        50%     power       1.1    50   320   23.14     24.57     18.68
+mandril_color        50%   logcosh       2.5    50   320   26.80     24.47     18.58
+mandril_color        50%       log       0.9    10   320   22.85     24.49     18.60
+mandril_color        50%     huber       1.0    50   320   21.33     24.43     18.53
+
+mandril_gray         30%      sqrt     1e-06    50   320   15.18     33.05     27.50
+mandril_gray         30%     power       1.1    30   320   21.77     33.38     27.83
+mandril_gray         30%   logcosh       2.5    50   320   25.77     32.98     27.43
+mandril_gray         30%       log       0.9    50   320   22.55     33.28     27.73
+mandril_gray         30%     huber       1.0    50   320   20.54     32.86     27.30
+
+mandril_gray         50%      sqrt     1e-06    50   320   16.75     28.47     22.91
+mandril_gray         50%     power       1.1    50   320   23.14     28.92     23.37
+mandril_gray         50%   logcosh       2.5    50   320   29.45     28.85     23.30
+mandril_gray         50%       log       0.9    10   320   25.19     28.97     23.41
+mandril_gray         50%     huber       1.0    50   320   23.18     28.76     23.21
+
+peppers_color        30%      sqrt     1e-06    50   320   18.55     27.40     22.52
+peppers_color        30%     power       1.1    30   320   27.38     27.60     22.72
+peppers_color        30%   logcosh       2.5    50   320   33.41     27.30     22.42
+peppers_color        30%       log       0.9    50   320   24.08     27.50     22.61
+peppers_color        30%     huber       1.0    50   320   22.81     27.28     22.40
+
+peppers_color        50%      sqrt     1e-06    50   320   19.65     24.81     19.92
+peppers_color        50%     power       1.1    50   320   26.91     25.04     20.15
+peppers_color        50%   logcosh       2.5    50   320   33.40     25.07     20.18
+peppers_color        50%       log       0.9    10   320   23.81     25.15     20.27
+peppers_color        50%     huber       1.0    50   320   22.09     25.01     20.13
+
+peppers_gray         30%      sqrt     1e-06    50   320   15.41     36.23     30.29
+peppers_gray         30%     power       1.1    30   320   23.24     36.51     30.57
+peppers_gray         30%   logcosh       2.5    50   320   37.08     36.31     30.37
+peppers_gray         30%       log       0.9    50   320   26.09     36.85     30.90
+peppers_gray         30%     huber       1.0    50   320   21.11     36.15     30.21
+
+peppers_gray         50%      sqrt     1e-06    50   320   17.90     32.27     26.32
+peppers_gray         50%     power       1.1    50   320   24.77     32.49     26.55
+peppers_gray         50%   logcosh       2.5    50   320   36.80     33.39     27.45
+peppers_gray         50%       log       0.9    10   320   27.42     33.79     27.84
+peppers_gray         50%     huber       1.0    50   320   23.43     33.35     27.41
+
+pirate               30%      sqrt     1e-06    50   320   19.15     35.05     28.60
+pirate               30%     power       1.1    30   320   25.87     35.23     28.78
+pirate               30%   logcosh       2.5    50   320   31.16     35.08     28.63
+pirate               30%       log       0.9    50   320   24.29     35.39     28.94
+pirate               30%     huber       1.0    50   320   21.09     34.91     28.46
+
+pirate               50%      sqrt     1e-06    50   320   17.95     31.27     24.83
+pirate               50%     power       1.1    50   320   24.31     31.53     25.08
+pirate               50%   logcosh       2.5    50   320   29.81     31.64     25.19
+pirate               50%       log       0.9    10   320   26.30     31.79     25.34
+pirate               50%     huber       1.0    50   320   25.94     31.55     25.10
+
+walkbridge           30%      sqrt     1e-06    50   320   16.59     30.96     24.86
+walkbridge           30%     power       1.1    30   320   24.16     31.16     25.07
+walkbridge           30%   logcosh       2.5    50   320   27.48     31.05     24.96
+walkbridge           30%       log       0.9    50   320   26.10     31.28     25.19
+walkbridge           30%     huber       1.0    50   320   21.63     31.02     24.92
+
+walkbridge           50%      sqrt     1e-06    50   320   16.61     27.55     21.45
+walkbridge           50%     power       1.1    50   320   35.04     27.73     21.63
+walkbridge           50%   logcosh       2.5    50   320   32.45     27.87     21.78
+walkbridge           50%       log       0.9    10   320   39.82     27.98     21.89
+walkbridge           50%     huber       1.0    50   320   28.12     27.84     21.74
+
+woman_blonde         30%      sqrt     1e-06    50   320   24.70     30.87     25.76
+woman_blonde         30%     power       1.1    30   320   37.83     31.05     25.94
+woman_blonde         30%   logcosh       2.5    50   320   39.40     30.63     25.52
+woman_blonde         30%       log       0.9    50   320   33.85     30.81     25.70
+woman_blonde         30%     huber       1.0    50   320   29.72     30.61     25.49
+
+woman_blonde         50%      sqrt     1e-06    50   320   19.09     27.67     22.56
+woman_blonde         50%     power       1.1    50   320   26.58     27.96     22.85
+woman_blonde         50%   logcosh       2.5    50   320   31.27     28.60     23.49
+woman_blonde         50%       log       0.9    10   320   27.76     28.95     23.84
+woman_blonde         50%     huber       1.0    50   320   32.87     28.72     23.61
+
+woman_darkhair       30%      sqrt     1e-06    50   320   18.38     43.44     37.19
+woman_darkhair       30%     power       1.1    30   320   25.55     44.05     37.80
+woman_darkhair       30%   logcosh       2.5    50   320   32.63     43.71     37.46
+woman_darkhair       30%       log       0.9    50   320   27.03     44.63     38.38
+woman_darkhair       30%     huber       1.0    50   320   22.40     43.46     37.21
+
+woman_darkhair       50%      sqrt     1e-06    50   320   17.03     36.40     30.16
+woman_darkhair       50%     power       1.1    50   320   25.29     37.57     31.33
+woman_darkhair       50%   logcosh       2.5    50   320   31.51     40.31     34.06
+woman_darkhair       50%       log       0.9    10   320   25.92     40.89     34.65
+woman_darkhair       50%     huber       1.0    50   320   23.71     40.14     33.90
+
+===== 各势函数在主测试集上的均值和标准差 =====
+势函数           噪声   mean PSNR    std PSNR    mean SNR     std SNR   mean iter    std iter    mean t/s     std t/s
+sqrt         30%       33.95        4.04       28.24        3.86       320.0         0.0       15.37        5.99
+power        30%       34.21        4.12       28.50        3.94       320.0         0.0       22.39        8.43
+logcosh      30%       33.96        4.12       28.25        3.93       320.0         0.0       27.48       10.05
+log          30%       34.34        4.31       28.63        4.12       320.0         0.0       22.77        8.20
+huber        30%       33.84        4.06       28.13        3.87       320.0         0.0       20.52        7.76
+sqrt         50%       29.35        2.95       23.64        2.77       320.0         0.0       15.92        5.86
+power        50%       30.04        3.23       24.33        3.06       320.0         0.0       22.87        8.22
+logcosh      50%       30.65        3.83       24.94        3.65       320.0         0.0       27.59        9.70
+log          50%       30.91        3.97       25.20        3.80       320.0         0.0       23.90        9.07
+huber        50%       30.61        3.80       24.90        3.63       320.0         0.0       21.70        8.24
